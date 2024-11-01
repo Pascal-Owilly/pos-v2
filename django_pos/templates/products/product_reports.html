@@ -1,0 +1,103 @@
+{% extends "pos/base.html" %}
+{% load static %}
+
+{% block title %}Products Report{% endblock title %}
+
+{% block stylesheets %}
+<link href="{% static 'vendor/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
+<link href="{% static 'css/pagination_buttons.css' %}" rel="stylesheet">
+{% endblock stylesheets %}
+
+{% block content %}
+<div class="container">
+    <div class="row mt-4 mb-3">
+        <div class="col-md-12">
+            <h3 class="text-primary">Products Report</h3>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped" id="productsTable">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Current Stock</th>
+                            <th>Total Sales</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for product in products %}
+                        <tr>
+                            <td>{{ product.name }}</td>
+                            <td>{{ product.current_stock|default:0 }}</td>
+                            <td>{{ product.total_sales|default:0 }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block javascripts %}
+<script src="{% static 'vendor/datatables/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.3.3/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.3.3/js/buttons.colVis.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.3.3/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.3.3/js/buttons.print.min.js"></script>
+<script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#productsTable').DataTable({
+            dom: 'Bfrtip',
+            pageLength: 10,
+            buttons: [
+                {
+                    extend: 'print',
+                    text: 'Print <i class="fas fa-file ml-2"></i>',
+                    className: 'btn btn-info',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+                {
+                    extend: 'excelHtml5',
+                    text: 'Download Excel <i class="fas fa-file-excel ml-2"></i>',
+                    className: 'btn btn-success ml-2',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    text: 'Download PDF <i class="fas fa-file-pdf ml-2"></i>',
+                    className: 'btn btn-danger ml-2',
+                    exportOptions: {
+                        columns: ':visible'
+                    },
+                    customize: function (doc) {
+                        doc.styles = {
+                            header: {
+                                fontSize: 18,
+                                bold: true,
+                                alignment: 'center'
+                            },
+                            tableHeader: {
+                                bold: true,
+                                fontSize: 11,
+                                color: 'white',
+                                fillColor: '#2d4154',
+                                alignment: 'center'
+                            }
+                        };
+                    }
+                }
+            ],
+        });
+    });
+</script>
+{% endblock javascripts %}

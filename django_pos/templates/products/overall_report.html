@@ -1,0 +1,208 @@
+{% extends "pos/base.html" %}
+{% load static %}
+
+<!-- Include Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+{% block content  %}
+
+<style>
+    /* Container styles */
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 30px;
+        background-color: #f8f9fc; /* Light background */
+        border-radius: 8px; /* Rounded corners */
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    }
+
+    /* Page title styles */
+    .page-title {
+        font-size: 2em;
+        margin-bottom: 30px;
+        color: #4e73df; /* Blue color */
+        text-align: center;
+        font-weight: bold;
+    }
+
+    /* Section title styles */
+    .section-title {
+        font-size: 2em;
+        margin-top: 30px;
+        margin-bottom: 10px;
+        color: #333; /* Dark gray */
+        border-bottom: 2px solid #4e73df; /* Underline */
+        padding-bottom: 5px; /* Spacing below title */
+        position: relative; /* For positioning the icon */
+        margin-left: 2rem;
+    }
+
+    .section-title .icon {
+        position: absolute;
+        left: -30px; /* Positioning icon to the left */
+        color: #4e73df; /* Blue color */
+        font-size: 1.5em; /* Icon size */
+        margin-left: -2rem;
+
+        
+    }
+
+    /* Table styles */
+    .report-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .report-table th,
+    .report-table td {
+        padding: 15px;
+        text-align: left;
+        border: 1px solid #ddd;
+        font-size: 1.1em; /* Slightly larger text */
+    }
+
+    .report-table th {
+        background-color: #4e73df; /* Blue background */
+        color: white; /* White text */
+    }
+
+    .report-table tbody tr {
+        transition: background-color 0.3s; /* Smooth hover effect */
+    }
+
+    .report-table tbody tr:hover {
+        background-color: #e9ecef; /* Light grey background on hover */
+    }
+
+    /* Message styles */
+    .empty-message {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 1.5em;
+        color: #777; /* Grey for the message */
+    }
+
+    .empty-message .icon {
+        color: #4e73df; /* Blue for the icon */
+        font-size: 1.5em; /* Icon size */
+        margin-right: 10px; /* Space between icon and text */
+    }
+
+    /* Total sales and purchases styling */
+    .total-sales, .total-purchases {
+        margin-top: 20px;
+        font-size: 1.5em;
+        color: #333; /* Dark gray */
+        text-align: center;
+        font-weight: bold; /* Make it bold */
+    }
+
+    /* Responsive styling */
+    @media (max-width: 600px) {
+        .report-table th,
+        .report-table td {
+            padding: 10px;
+            font-size: 14px;
+        }
+
+        .page-title, .section-title {
+            font-size: 1.8em;
+        }
+    }
+</style>
+
+<div class="container">
+    <h1 class="page-title">Overall Report</h1>
+
+    <h2 class="section-title">
+        <i class="fas fa-chart-line icon"></i> Sales Reports
+    </h2>
+    {% if sales_reports %}
+    <table class="report-table">
+        <thead>
+            <tr>
+                <th>Employee</th>
+                <th>Amount</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for report in sales_reports %}
+            <tr>
+                <td>{{ report.employee.user.username }}</td>
+                <td>{{ report.amount }}</td>
+                <td>{{ report.date }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <h2 class="total-sales">Total Sales: {{ total_sales }}</h2>
+    {% else %}
+    <div class="empty-message">
+        <i class="fas fa-exclamation-circle icon"></i>
+        No sales reports available.
+    </div>
+    {% endif %}
+
+    <h2 class="section-title">
+        <i class="fas fa-shopping-cart icon"></i> Purchase Reports
+    </h2>
+    {% if purchase_reports %}
+    <table class="report-table">
+        <thead>
+            <tr>
+                <th>Employee</th>
+                <th>Amount</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for report in purchase_reports %}
+            <tr>
+                <td>{{ report.employee.user.username }}</td>
+                <td>{{ report.amount }}</td>
+                <td>{{ report.date }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <h2 class="total-purchases">Total Purchases: {{ total_purchases }}</h2>
+    {% else %}
+    <div class="empty-message">
+        <i class="fas fa-exclamation-circle icon"></i>
+        No purchase reports available.
+    </div>
+    {% endif %}
+
+    <h2 class="section-title">
+        <i class="fas fa-user-times icon"></i> Absence Reports
+    </h2>
+    {% if absence_reports %}
+    <table class="report-table">
+        <thead>
+            <tr>
+                <th>Employee</th>
+                <th>Date</th>
+                <th>Reason</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for report in absence_reports %}
+            <tr>
+                <td>{{ report.employee.user.username }}</td>
+                <td>{{ report.date }}</td>
+                <td>{{ report.reason }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="empty-message">
+        <i class="fas fa-exclamation-circle icon"></i>
+        No absence reports available.
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

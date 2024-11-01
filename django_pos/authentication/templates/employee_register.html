@@ -1,0 +1,113 @@
+{% extends "pos/base.html" %}
+{% load static %}
+
+{% block title %}Register{% endblock title %}
+
+{% block stylesheets %}
+    <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
+{% endblock stylesheets %}
+
+{% block content %}
+    <div class="container">
+
+        <!-- Outer Row -->
+        <div class="row">
+            <div class="col-xl-10 col-lg-12 col-md-9">
+                <div class="card o-hidden border-0 shadow-lg">
+                    <div class="card-body p-0">
+                        <!-- Nested Row within Card Body -->
+                        <div class="row">
+                            <div class="col-lg-6 d-none d-lg-block bg-register-image"></div>
+                            <div class="col-lg-6">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <h1 class="h4 text-gray-900 mb-4">Register!</h1>
+                                    </div>
+                                    <form class="user" method="post">
+                                        {% csrf_token %}
+                                        <div class="form-group">
+                                            {{ form.username }}
+                                            {% for error in form.username.errors %}
+                                                <small class="text-danger">{{ error }}</small>
+                                            {% endfor %}
+                                        </div>
+                                        <div class="form-group">
+                                            {{ form.first_name }}
+                                            {% for error in form.first_name.errors %}
+                                                <small class="text-danger">{{ error }}</small>
+                                            {% endfor %}
+                                        </div>
+                                        <div class="form-group">
+                                            {{ form.last_name }}
+                                            {% for error in form.last_name.errors %}
+                                                <small class="text-danger">{{ error }}</small>
+                                            {% endfor %}
+                                        </div>
+                                        <div class="form-group">
+                                            {{ form.email }}
+                                            {% for error in form.email.errors %}
+                                                <small class="text-danger">{{ error }}</small>
+                                            {% endfor %}
+                                        </div>
+                                        <div class="form-group">
+                                            {{ form.phone_number }}
+                                            {% for error in form.phone_number.errors %}
+                                                <small class="text-danger">{{ error }}</small>
+                                            {% endfor %}
+                                        </div>
+                                        <div class="form-group">    
+                                            {{ form.address }}
+                                            {% for error in form.address.errors %}
+                                                <small class="text-danger">{{ error }}</small>
+                                            {% endfor %}
+                                        </div>
+                                        <div class="form-group">
+                                            {{ form.role }}
+                                            {% for error in form.role.errors %}
+                                                <small class="text-danger">{{ error }}</small>
+                                            {% endfor %}
+                                        </div>
+                                        <div class="form-group">
+                                            {{ form.password1.label_tag }}
+                                            {{ form.password1 }}
+                                            {% for error in form.password1.errors %}
+                                                <small class="text-danger">{{ error }}</small>
+                                            {% endfor %}
+                                        </div>
+                                        <div class="form-group">
+                                            {{ form.password2.label_tag }}
+                                            {{ form.password2 }}
+                                            {% for error in form.password2.errors %}
+                                                <small class="text-danger">{{ error }}</small>
+                                            {% endfor %}
+                                        </div>
+                                        <button type="submit" class="btn btn-primary btn-user btn-block">Register</button>
+                                    </form>
+                                    
+                                    
+                                    <hr>
+                                    <div class="text-center">Already have an account? 
+                                        <a class="small" href="">Login!</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block javascripts %}
+    <!-- Bootstrap core JavaScript-->
+    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
+{% endblock javascripts %}

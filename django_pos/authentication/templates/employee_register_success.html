@@ -1,0 +1,39 @@
+{% extends "pos/base.html" %}
+{% load static %}
+
+{% block title %}Register{% endblock title %}
+
+{% block stylesheets %}
+    <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
+{% endblock stylesheets %}
+
+{% block content %}
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding: 50px;
+        }
+        .container {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .icon {
+            font-size: 50px;
+            color: #28a745; /* Green color */
+            margin-bottom: 20px;
+        }
+        .message {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+    </style>
+    <div class="container">
+        <i class="icon fas fa-check-circle"></i>
+        <div class="message">Registration Successful!</div>
+        <p>An email has been sent to your inbox with instructions to reset your password.</p>
+    </div>
+{% endblock content %}

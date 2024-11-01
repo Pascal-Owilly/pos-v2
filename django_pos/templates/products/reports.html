@@ -1,0 +1,99 @@
+{% extends "pos/base.html" %}
+{% load static %}
+{% block title %}Reports{% endblock title %}
+{% block stylesheets %}
+<link href="{% static 'vendor/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
+<link href="{% static 'css/pagination_buttons.css' %}" rel="stylesheet">
+<link href="{% static 'css/custom.css' %}" rel="stylesheet">
+{% endblock stylesheets %}
+{% block heading %}Reports{% endblock heading %}
+{% block content %}
+<style>
+    .card-link {
+    text-decoration: none;
+    color: inherit;
+}
+.card-link:hover .card {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+</style>
+<div class="row">
+    <!-- <div class="col-md-4 mb-4">
+        <a class="card-link" href="{% url 'products:employee_reports' %}">
+            <div class="card">
+                <div class="card-header">
+                    Employee Reports
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Detailed reports on employee performance and statistics.</p>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">Updated 3 mins ago</small>
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-md-4 mb-4">
+        <a class="card-link" href="{% url 'products:product_reports' %}">
+            <div class="card">
+                <div class="card-header">
+                    Product Reports
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Analysis and insights on product performance.</p>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">Updated 5 mins ago</small>
+                </div>
+            </div>
+        </a>
+    </div> -->
+
+    <div class="col-md-4 mb-4">
+        <a class="card-link" href="{% url 'products:daily_reports' %}">
+            <div class="card">
+                <div class="card-header">
+                    Sales reports
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Reports on current stock levels and inventory management.</p>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted"></small>
+                </div>
+            </div>
+        </a>
+    </div>
+    <!-- <div class="col-md-4 mb-4">
+        <a class="card-link" href="{% url 'products:bp_vs_sl_reports' %}">
+            <div class="card">
+                <div class="card-header">
+                    BP vs SL Reports
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Comparison of buying price vs selling price.</p>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">Updated 20 mins ago</small>
+                </div>
+            </div>
+        </a>
+    </div>  
+    <div class="col-md-4 mb-4">
+        <a class="card-link" href="{% url 'products:wastage_reports' %}">
+            <div class="card">
+                <div class="card-header">
+                    Wastage Reports
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Reports on product wastage and loss.</p>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">Updated 25 mins ago</small>
+                </div>
+            </div>
+        </a>
+    </div> -->
+</div>
+{% endblock content %}

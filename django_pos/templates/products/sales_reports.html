@@ -1,0 +1,80 @@
+{% extends "pos/base.html" %}
+{% load static %}
+
+{% block title %}Stores List{% endblock title %}
+
+{% block stylesheets %}
+<link href="{% static 'vendor/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
+<link href="{% static 'css/pagination_buttons.css' %}" rel="stylesheet">
+{% endblock stylesheets %}
+
+{% block content %}
+<div class="container-fluid">
+    <h4>Sales Reports</h4>
+    <div class="row mt-4 mb-3">
+        <div class="col-md-2">
+            <div class="btn-group-vertical">
+                <a href="?date={{ today|date:'Y-m-d' }}" class="btn btn-primary btn-sm mb-2">Today</a>
+                <a href="?date={{ yesterday|date:'Y-m-d' }}" class="btn btn-primary btn-sm mb-2">Yesterday</a>
+                {% for date in last_seven_days %}
+                    <a href="?date={{ date|date:'Y-m-d' }}" class="btn btn-outline-primary btn-sm mb-2">{{ date|date:'l' }}</a>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-md-10">
+            <div class="card shadow mb-12">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">{{ selected_date }}</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Total Quantity</th>
+                                    <th>Total Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for sale in selected_day_sales %}
+                                    <tr>
+                                        <td>{{ sale.product }}</td>
+                                        <td>{{ sale.total_quantity }}</td>
+                                        <td>{{ sale.total_amount }}</td>
+                                        
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-danger" onclick="window.print()">
+                            <i class="fas fa-print"></i> Print
+                        </button>
+                        <a href="#" class="btn btn-success">
+                            <i class="fas fa-file-excel"></i> Download Excel
+                        </a>
+                        <a href="#" class="btn btn-danger">
+                            <i class="fas fa-file-pdf"></i> Download PDF
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block javascripts %}
+<script src="{% static 'vendor/datatables/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#dataTable').DataTable();
+    });
+</script>
+{% endblock javascripts %}

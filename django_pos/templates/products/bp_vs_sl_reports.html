@@ -1,0 +1,28 @@
+{% extends "pos/base.html" %}
+{% load static %}
+{% block title %}BP vs SP {% endblock title %}
+{% block stylesheets %}
+<link href="{% static 'vendor/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
+<link href="{% static 'css/pagination_buttons.css' %}" rel="stylesheet">
+<link href="{% static 'css/custom.css' %}" rel="stylesheet">
+{% endblock stylesheets %}
+{% block content %}
+<style>
+    .card{
+        background-color: white;
+    }
+    .card-link {
+    text-decoration: none;
+    color: inherit;
+    background-color: white;
+}
+.card-link:hover .card {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+</style>
+<h3>BP vs SP Reports </h3>
+<div class="row">
+   
+</div>
+{% endblock content %}

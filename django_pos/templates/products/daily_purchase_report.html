@@ -1,0 +1,108 @@
+{% extends "pos/base.html" %}
+{% block content %}
+<style>
+    /* Container styles */
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    /* Page title styles */
+    .page-title {
+        font-size: 2.5em;
+        margin-bottom: 20px;
+        color: #333; /* Dark gray */
+        text-align: center;
+    }
+
+    /* Table styles */
+    .report-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .report-table th,
+    .report-table td {
+        padding: 15px;
+        text-align: left;
+        border: 1px solid #ddd;
+    }
+
+    .report-table th {
+        background-color: #4e73df; /* Blue background */
+        color: white; /* White text */
+    }
+
+    .report-table tbody tr:hover {
+        background-color: #f5f5f5; /* Light grey background on hover */
+    }
+
+    /* Total purchases styling */
+    .total-purchases {
+        margin-top: 20px;
+        font-size: 1.5em;
+        color: #333; /* Dark gray */
+        text-align: center;
+    }
+
+    /* No reports message styling */
+    .no-reports {
+        text-align: center;
+        margin-top: 20px;
+        color: #777; /* Grey color for the message */
+        font-size: 1.2em;
+    }
+
+    .no-reports i {
+        font-size: 3em; /* Icon size */
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    /* Responsive styling */
+    @media (max-width: 600px) {
+        .report-table th,
+        .report-table td {
+            padding: 10px;
+            font-size: 14px;
+        }
+
+        .page-title {
+            font-size: 1.8em;
+        }
+    }
+</style>
+<div class="container">
+    <h1 class="page-title">Daily Purchase Report</h1>
+
+    {% if reports %}
+        <table class="report-table">
+            <thead>
+                <tr>
+                    <th>Employee</th>
+                    <th>Amount</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for report in reports %}
+                <tr>
+                    <td>{{ report.employee.user.username }}</td>
+                    <td>{{ report.amount }}</td>
+                    <td>{{ report.date }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <h2 class="total-purchases">Total Purchases: {{ total_purchases }}</h2>
+    {% else %}
+        <div class="no-reports">
+            <i class="fas fa-exclamation-circle"></i>  <!-- Font Awesome Icon -->
+            No purchase reports available.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

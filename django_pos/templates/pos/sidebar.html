@@ -1,0 +1,167 @@
+{% load static %}
+<style>
+/* Custom CSS for the sidebar */
+.sidebar {
+    background-color: #4e73df;
+    background-image: linear-gradient(180deg, grey 10%, blue 100%);
+}
+.sidebar-brand {
+    padding: 0.75rem 1rem;
+    color: #fff;
+    font-size: 1.25rem;
+    text-decoration: none;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.sidebar-brand-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    line-height: 2.5rem;
+}
+.sidebar-brand-text {
+    font-weight: bold;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.sidebar-divider {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+.sidebar-heading {
+    color: rgba(255, 255, 255, 0.8);
+}
+</style>
+
+<ul class="navbar-nav bg-gradient-secondary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+    <!-- Sidebar - Brand -->
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'pos:index' %}">
+        <div class="sidebar-brand-icon rotate-n-15">
+            <i class="fas fa-cash-register"></i>
+        </div>
+        <div class="sidebar-brand-text mx-3">Point of Sale</div>
+    </a>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider mb-0">
+
+    <!-- Restrict Dashboard view to specific roles -->
+    {% if  user.role == 'admin' or user.is_superuser %}
+        <li class="{% if 'dashboard' in active_icon %} nav-item active {% else %} nav-item {% endif %}">
+            <a class="nav-link" href="{% url 'pos:index' %}">
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </a>
+        </li>
+    {% endif %}
+
+    <!-- Products Menu: Admin and Superuser only -->
+    {% if user.role == 'employee' or user.role == 'admin' or user.is_superuser  %}
+        <hr class="sidebar-divider my-0">
+        <li class="{% if 'products' in active_icon %} nav-item active {% else %} nav-item {% endif %}">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+               aria-expanded="true" aria-controls="collapseTwo">
+                <i class="fas fa-fw fa-tag"></i>
+                <span>Products</span>
+            </a>
+            <div id="collapseTwo" class="{% if 'products' in active_icon %} collapse show {% else %} collapse {% endif %}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="{% if 'categories' in active_icon %} collapse-item active {% else %} collapse-item {% endif %}" href="{% url 'products:categories_list' %}">Categories</a>
+                    <a class="{% if 'products_products' in active_icon %} collapse-item active {% else %} collapse-item {% endif %}" href="{% url 'products:products_list' %}">Products</a>
+                </div>
+            </div>
+        </li>
+    {% endif %}
+
+    <!-- Purchases view only for employees and admins -->
+    {% if user.role == 'employee' or user.role == 'admin' %}
+        <hr class="sidebar-divider mb-0">
+        <li class="{% if 'dashboard' in active_icon %} nav-item active {% else %} nav-item {% endif %}">
+            <a class="nav-link" href="{% url 'products:purchase_list' %}">
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span>Purchases</span>
+            </a>
+        </li>
+    {% endif %}
+
+    <!-- Stores view only for admins -->
+    {% if user.role == 'admin' or user.role == 'employee' or user.is_superuser  %}
+        <hr class="sidebar-divider mb-0">
+        <li class="{% if 'dashboard' in active_icon %} nav-item active {% else %} nav-item {% endif %}">
+            <a class="nav-link" href="{% url 'products:store_list' %}">
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span>Stores</span>
+            </a>
+        </li>
+    {% endif %}
+
+    <!-- Reports for Admin and Superuser only -->
+
+
+    <!-- Employees section for Admin and Superuser only -->
+    {% if user.role == 'admin' or user.is_superuser %}
+        <hr class="sidebar-divider my-0">
+        <li class="{% if 'customers' in active_icon %} nav-item active {% else %} nav-item {% endif %}">
+            <a class="nav-link" href="{% url 'authentication:employee_list' %}">
+                <i class="fas fa-fw fa-users"></i>
+                <span>Employees</span>
+            </a>
+        </li>
+    {% endif %}
+
+    <!-- Vendors and Customers for all users -->
+    {% if user.role == 'admin' or user.role == 'employee' or user.is_superuser %}
+    <hr class="sidebar-divider mb-0">
+    <li class="{% if 'customers' in active_icon %} nav-item active {% else %} nav-item {% endif %}">
+        <a class="nav-link" href="{% url 'products:vendors_list' %}">
+            <i class="fas fa-fw fa-users"></i>
+            <span>Vendors</span>
+        </a>
+    </li>
+    {% endif %}
+
+    {% if user.role == 'admin' or user.is_superuser %}
+    <hr class="sidebar-divider my-0">
+    
+    <!-- Reports Dropdown -->
+    <li class="nav-item dropdown {% if 'reports' in active_icon %} active {% endif %}">
+        <a class="nav-link dropdown-toggle" href="#" id="reportsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-fw fa-chart-line"></i>
+            <span>Reports</span>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="reportsDropdown">
+            <a class="dropdown-item {% if 'daily_sales' in active_icon %} active {% endif %}" href="{% url 'products:daily_sales_report' %}">
+                <i class="fas fa-fw fa-cart-plus"></i>
+                Daily Sales Reports
+            </a>
+            <a class="dropdown-item {% if 'daily_purchase' in active_icon %} active {% endif %}" href="{% url 'products:daily_purchase_report' %}">
+                <i class="fas fa-fw fa-cart-plus"></i>
+                Daily Purchase Reports
+            </a>
+            <a class="dropdown-item {% if 'absence' in active_icon %} active {% endif %}" href="{% url 'products:absence_report' %}">
+                <i class="fas fa-fw fa-cart-plus"></i>
+                Absence Report
+            </a>
+            <a class="dropdown-item {% if 'overall' in active_icon %} active {% endif %}" href="{% url 'products:overall_report' %}">
+                <i class="fas fa-fw fa-cart-plus"></i>
+                Overall Reports
+            </a>
+        </div>
+    </li>
+    
+    <hr class="sidebar-divider my-0">
+    
+    <!-- Sales Section -->
+    <li class="{% if 'sales' in active_icon %} nav-item active {% else %} nav-item {% endif %}">
+        <a class="nav-link" href="{% url 'sales:sales_list' %}">
+            <i class="fas fa-fw fa-cart-plus"></i>
+            <span>Sales</span>
+        </a>
+    </li>
+    
+    {% endif %}
+    
+
+    <!-- Sidebar Toggler (Sidebar) -->
+    <hr class="sidebar-divider d-none d-md-block">
+    <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+    </div>
+</ul>
